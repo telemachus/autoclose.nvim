@@ -34,16 +34,6 @@ local config = {
    disabled = false,
 }
 
-local function is_start_of_line(mode)
-   if mode == "insert" then
-      return vim.fn.getcurpos()[3] == 1
-   elseif mode == "command" then
-      return vim.fn.getcmdpos() == 1
-   else
-      return false
-   end
-end
-
 local function chars_by_position(line, char_positions)
    local chars = {}
 
@@ -150,7 +140,7 @@ local function handler(key, info, mode)
       and is_pair(pair)
    then
       return "<CR><ESC>O" .. (config.options.auto_indent and "" or "<C-D>")
-   elseif info.escape and not is_start_of_line(mode) and pair[2] == key then
+   elseif info.escape and pair[2] == key then
       return mode == "insert" and "<C-G>U<Right>" or "<Right>"
    elseif info.close then
       -- disable if the cursor touches alphanumeric character
