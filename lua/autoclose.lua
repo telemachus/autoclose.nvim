@@ -52,7 +52,6 @@ local function insert_get_pair()
    -- add "_" to let close function work in the first col
    local line = "_" .. vim.api.nvim_get_current_line()
    local col = vim.api.nvim_win_get_cursor(0)[2] + 1
-   local cursor_char_pos = vim.fn.getcursorcharpos(0)[3]
    local char_positions = vim.str_utf_pos(line)
 
    -- If there are no multibyte characters, we can avoid the following work.
@@ -61,6 +60,7 @@ local function insert_get_pair()
    end
 
    chars = chars_by_position(line, char_positions)
+   local cursor_char_pos = vim.fn.getcursorcharpos(0)[3]
 
    return { chars[cursor_char_pos], chars[cursor_char_pos + 1] }
 end
