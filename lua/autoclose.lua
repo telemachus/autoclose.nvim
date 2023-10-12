@@ -59,7 +59,7 @@ local function insert_get_pair()
       return { line:sub(col, col), line:sub(col + 1, col + 1) }
    end
 
-   chars = chars_by_position(line, char_positions)
+   local chars = chars_by_position(line, char_positions)
    local cursor_char_pos = vim.fn.getcursorcharpos(0)[3]
 
    return { chars[cursor_char_pos], chars[cursor_char_pos + 1] }
