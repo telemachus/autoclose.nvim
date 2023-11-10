@@ -158,7 +158,7 @@ local function handler(key, info, mode)
          and (
             not config.options.pair_spaces
             or (config.options.pair_spaces and not is_pair(pair))
-            or pair[1] == pair[1]
+            or pair[1] == pair[2]
          )
       then
          return key
