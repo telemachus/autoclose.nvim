@@ -127,8 +127,10 @@ local function is_disabled(info)
 end
 
 local function should_delete(key, mode)
-   return (key == "<BS>" or key == "<C-H>" or key == "<C-W>")
-      and string.find(vim.fn.maparg(key, mode), "autoclose")
+   return key == "<BS>"
+      or key == "<C-H>"
+      or key == "<C-W>"
+         and string.find(vim.fn.maparg(key, mode), "autoclose")
 end
 
 local function handler(key, info, mode)
@@ -192,7 +194,10 @@ function autoclose.setup(user_config)
    end
 
    for key, info in pairs(config.keys) do
-      if vim.fn.empty(vim.fn.mapcheck(key, "i")) ~= 0 then
+      if
+         key == "<C-W>" and vim.fn.mapcheck(key, "i") == "<C-G>u<C-W>"
+         or vim.fn.mapcheck(key, "i") == ""
+      then
          vim.keymap.set("i", key, function()
             return (key == " " and "<C-]>" or "")
                .. handler(key, info, "insert")
@@ -202,6 +207,7 @@ function autoclose.setup(user_config)
       if
          not config.options.disable_command_mode
          and not info.disable_command_mode
+         and vim.fn.mapcheck(key, "c") == ""
       then
          vim.keymap.set("c", key, function()
             return (key == " " and "<C-]>" or "")
